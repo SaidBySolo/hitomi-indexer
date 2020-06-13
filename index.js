@@ -10,6 +10,8 @@ const config = require('./config')
 
 const opts = {}
 
+console.log('[Info] parsing the given command line arguments')
+
 const argv = argvParser(process.argv.slice(2))
 const argvKeys = Object.keys(argv)
 
@@ -17,15 +19,20 @@ for (let i = 0, l = argvKeys.length; i < l; i++) {
   const key = argvKeys[i]
 
   config[key] = argv[key] || config[key]
+
+  console.log(`[Info/Config] applying config '${key}': '${config[key]}'`)
 }
+
+console.log(`[Info/Config] starting with the following config`)
+console.log(config)
 
 let agent
 
 if (config.proxy) {
+  console.log(`[Info/Warning] '${config.proxy}' was provided as proxy url and the proxy will be used for requests`)
+
   agent = new HttpsProxyAgent(config.proxy)
 }
-
-console.log(config)
 
 switch (config.mode) {
   case 'index': {
@@ -37,11 +44,7 @@ switch (config.mode) {
       item: config.item,
       agent
     })
-      .then(items => {
-        for (let i = 0; i < items.length; i++) {
-          console.log(items[i])
-        }
-      })
+      .then(items => console.log(`[Info/Result] indexed items: ${items.join(', ')}`))
 
     break
   }

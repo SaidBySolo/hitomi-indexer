@@ -24,6 +24,12 @@ const fetchIndex = async (opts = {}) => {
     items.push(interface.getInt32(i * 4, false /* big endian */))
   }
 
+  // NOTE: Heuristic: Check the length of buffers with
+  if (opts.item !== totalItems) {
+    console.log('[Heuristic/Warning] the request may failed becuase the length of returned items is not matched with option')
+    console.log('[Heuristic/Advice] use internal proxy via `--proxy http://<address>` option or try updating the application')
+  }
+
   return items
 }
 
