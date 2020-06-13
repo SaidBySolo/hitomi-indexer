@@ -1,6 +1,11 @@
 const fetch = require('node-fetch')
 
+const translations = require('../translations')
+
 const fetchIndex = async (opts = {}) => {
+  // NOTE: Should be declared after the hydration of `_active` key because the variable is contant
+  const translation = translations._active
+
   const bytesStart = (opts.page - 1) * opts.item * 4
   const bytesEnd = bytesStart + opts.item * 4 - 1
 
@@ -24,10 +29,10 @@ const fetchIndex = async (opts = {}) => {
     items.push(interface.getInt32(i * 4, false /* big endian */))
   }
 
-  // NOTE: Heuristic: Check the length of buffers with
+  // NOTE: Heuristic: Check the length of buffers with given option
   if (opts.item !== totalItems) {
-    console.log('[Heuristic/Warning] the request may failed becuase the length of returned items is not matched with option')
-    console.log('[Heuristic/Advice] use internal proxy via `--proxy http://<address>` option or try updating the application')
+    console.log(translation.fetchIndexHeuristicRequestBlocked)
+    console.log(translation.fetchIndexHeuristicApplyingProxy)
   }
 
   return items
