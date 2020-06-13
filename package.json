@@ -5,12 +5,14 @@
   "author": "Seia-Soto <seia@outlook.kr>",
   "license": "MIT",
   "scripts": {
+    "debug": "node .",
     "build": "shx mkdir -p .build && pkg . --target host --output ./.build/hitomi"
   },
   "bin": {
     "hitomi": "index.js"
   },
   "dependencies": {
+    "https-proxy-agent": "^5.0.0",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {

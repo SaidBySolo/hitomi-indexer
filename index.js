@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const HttpsProxyAgent = require('https-proxy-agent')
+
 const {
   argvParser,
   fetchIndex
@@ -17,8 +19,13 @@ for (let i = 0, l = argvKeys.length; i < l; i++) {
   config[key] = argv[key] || config[key]
 }
 
-const bytesStart = (config.page - 1) * config.item * 4
-const bytesEnd = bytesStart + config.item * 4 - 1
+let agent
+
+if (config.proxy) {
+  agent = new HttpsProxyAgent(config.proxy)
+}
+
+console.log(config)
 
 switch (config.mode) {
   case 'index': {
@@ -26,8 +33,9 @@ switch (config.mode) {
       domain: config.domain,
       indexFile: config.indexFile,
       userAgent: config.userAgent,
-      bytesStart,
-      bytesEnd
+      page: config.page,
+      item: config.item,
+      agent
     })
       .then(items => {
         for (let i = 0; i < items.length; i++) {
