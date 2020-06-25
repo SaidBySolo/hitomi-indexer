@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "debug": "node .",
-    "build": "shx mkdir -p .build && pkg . --target host --output ./.build/hitomi"
+    "build": "shx mkdir -p .build && pkg . --output ./.build/hitomi --target"
   },
   "bin": {
     "hitomi": "index.js"
