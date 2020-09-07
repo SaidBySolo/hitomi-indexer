@@ -19,5 +19,5 @@ async def fetch_index(opts: dict):
             buffer = await r.read()
 
     # len(buffer) % 4
-    total_items = len(buffer) // 44
+    total_items = len(buffer) // 4
     return struct.unpack(f">{total_items}i", buffer)
